@@ -8,7 +8,6 @@ const issuesRequest = (currentPage) => async (dispatch) => {
       `https://api.github.com/repos/rails/rails/issues?page=${currentPage}&per_page=5`
     );
     const data = await res.json();
-    console.log("got data", data);
     dispatch({ type: types.ISSUE_REQUEST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: types.ISSUE_REQUEST_FAILURE, payload: error });

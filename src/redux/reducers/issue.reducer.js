@@ -41,7 +41,6 @@ const issueReducer = (state = initialState, action) => {
       }
     case types.ISSUE_REQUEST_FAILURE:
     case types.ISSUE_SELECT_FAILURE:
-      console.log(payload);
       return { ...state, loading: false };
     default:
       return state;

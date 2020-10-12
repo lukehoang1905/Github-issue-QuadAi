@@ -11,7 +11,6 @@ const HomePage = () => {
   const issues = useSelector((state) => state.issue.issues);
 
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("loading", loading);
 
   useEffect(() => {
     dispatch(issueActions.issuesRequest(currentPage));
