@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Container, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import SingleIssue from "../../components/SingleIssue";
@@ -9,11 +9,20 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.issue.loading);
   const issues = useSelector((state) => state.issue.issues);
+  const [currentPage, setCurrentPage] = useState(1);
   console.log("loading", loading);
 
   useEffect(() => {
-    dispatch(issueActions.issuesRequest());
-  }, [dispatch]);
+    dispatch(issueActions.issuesRequest(currentPage));
+  }, [dispatch, currentPage]);
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  const handlePreviousPage = () => {
+    if (currentPage === 1) return;
+    setCurrentPage(currentPage - 1);
+  };
 
   return (
     <>
@@ -33,6 +42,21 @@ const HomePage = () => {
                     ))}
                   </tbody>
                 </Table>
+                <div>
+                  <p>
+                    <h6>{`Current Page: ${currentPage}`}</h6>
+                    {currentPage !== 1 ? (
+                      <Button variant="dark" onClick={handlePreviousPage}>
+                        Previous
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                    <Button variant="dark" onClick={handleNextPage}>
+                      Next
+                    </Button>
+                  </p>
+                </div>
               </div>
             ) : (
               <p>There is no issue</p>
