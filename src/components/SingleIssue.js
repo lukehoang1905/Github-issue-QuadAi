@@ -3,6 +3,7 @@ import { Badge, Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { issueActions } from "../redux/actions/issue.actions";
+import "./SingleIssue.css";
 
 const SingleIssue = ({ issue }) => {
   const id = issue.id;
@@ -25,6 +26,7 @@ const SingleIssue = ({ issue }) => {
     <tr>
       <td
         style={{ border: "1px solid red" }}
+        className={issue.id === currentIssue ? "highlighted" : ""}
         onClick={() => handleSelectIssue(id)}
       >
         <Row>
