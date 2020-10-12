@@ -9,6 +9,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.issue.loading);
   const issues = useSelector((state) => state.issue.issues);
+
   const [currentPage, setCurrentPage] = useState(1);
   console.log("loading", loading);
 
@@ -46,13 +47,16 @@ const HomePage = () => {
                   <p>
                     <h6>{`Current Page: ${currentPage}`}</h6>
                     {currentPage !== 1 ? (
-                      <Button variant="dark" onClick={handlePreviousPage}>
+                      <Button
+                        variant="dark"
+                        onClick={() => handlePreviousPage()}
+                      >
                         Previous
                       </Button>
                     ) : (
                       <></>
                     )}
-                    <Button variant="dark" onClick={handleNextPage}>
+                    <Button variant="dark" onClick={() => handleNextPage()}>
                       Next
                     </Button>
                   </p>

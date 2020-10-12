@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
+import { useDispatch, useSelector } from "react-redux";
+import { issueActions } from "../redux/actions/issue.actions";
 
 const SingleIssue = ({ issue }) => {
+  const id = issue.id;
+  const selectedIssues = useSelector((state) => state.issue.selectedIssues);
+  const currentIssue = useSelector((state) => state.issue.currentIssue);
+  const dispatch = useDispatch();
+  console.log("selc", selectedIssues);
+  console.log("current", currentIssue);
+
+  const handleSelectIssue = (id) => {
+    if (currentIssue === id) {
+      id = "delete";
+    }
+    dispatch(issueActions.selectIssue(id));
+    console.log(selectedIssues);
+    console.log("current", currentIssue);
+  };
+
   return (
     <tr>
-      <td>
+      <td
+        style={{ border: "1px solid red" }}
+        onClick={() => handleSelectIssue(id)}
+      >
         <Row>
           <Col md={1} className="issue-icon-area">
             <i className="fas fa-code-branch"></i>
