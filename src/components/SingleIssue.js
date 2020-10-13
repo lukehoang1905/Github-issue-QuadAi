@@ -19,7 +19,6 @@ const SingleIssue = ({ issue }) => {
   return (
     <tr>
       <td
-        style={{ border: "1px solid red" }}
         className={issue.id === currentIssue ? "highlighted" : ""}
         onClick={() => handleSelectIssue(issue)}
       >

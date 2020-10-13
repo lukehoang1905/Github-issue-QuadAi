@@ -6,7 +6,7 @@ const PublicNavbar = () => {
   const selectedIssues = useSelector((state) => state.issue.selectedIssues);
   return (
     <div>
-      <Navbar style={{ width: "100%" }}>
+      <Navbar bg="dark" sticky="top" variant="dark" style={{ width: "100%" }}>
         <Navbar.Brand
           as={Link}
           to="/"

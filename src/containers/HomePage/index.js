@@ -42,9 +42,9 @@ const HomePage = () => {
                     ))}
                   </tbody>
                 </Table>
-                <div>
-                  <p>
-                    <h6>{`Current Page: ${currentPage}`}</h6>
+                <div className="d-flex justify-content-between">
+                  <h6>{`Current Page: ${currentPage}`}</h6>
+                  <div>
                     {currentPage !== 1 ? (
                       <Button
                         variant="dark"
@@ -58,7 +58,7 @@ const HomePage = () => {
                     <Button variant="dark" onClick={() => handleNextPage()}>
                       Next
                     </Button>
-                  </p>
+                  </div>
                 </div>
               </div>
             ) : (
