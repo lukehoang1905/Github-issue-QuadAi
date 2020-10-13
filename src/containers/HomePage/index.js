@@ -28,7 +28,7 @@ const HomePage = () => {
     <>
       <Container>
         {" "}
-        <h1>Github Issue</h1>
+        <h1>Issue List</h1>
         {loading ? (
           <ClipLoader color="#f86c6b" size={150} loading={loading} />
         ) : (

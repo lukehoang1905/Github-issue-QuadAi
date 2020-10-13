@@ -6,14 +6,14 @@ import { issueActions } from "../redux/actions/issue.actions";
 import "./SingleIssue.css";
 
 const SingleIssue = ({ issue }) => {
-  const id = issue.id;
   const currentIssue = useSelector((state) => state.issue.currentIssue);
   const dispatch = useDispatch();
-  const handleSelectIssue = (id) => {
-    if (currentIssue === id) {
-      id = "delete";
+  let currentId = issue.id;
+  const handleSelectIssue = (issue) => {
+    if (currentIssue === issue.id) {
+      currentId = "delete";
     }
-    dispatch(issueActions.selectIssue(id));
+    dispatch(issueActions.selectIssue({ issue, currentId }));
   };
 
   return (
@@ -21,7 +21,7 @@ const SingleIssue = ({ issue }) => {
       <td
         style={{ border: "1px solid red" }}
         className={issue.id === currentIssue ? "highlighted" : ""}
-        onClick={() => handleSelectIssue(id)}
+        onClick={() => handleSelectIssue(issue)}
       >
         <Row>
           <Col md={1} className="issue-icon-area">

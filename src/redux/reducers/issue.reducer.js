@@ -16,25 +16,25 @@ const issueReducer = (state = initialState, action) => {
     case types.ISSUE_REQUEST_SUCCESS:
       return { ...state, issues: payload, loading: false };
     case types.ISSUE_SELECT_SUCCESS:
-      if (payload === "delete") {
+      if (payload.currentId === "delete") {
         return {
           ...state,
           selectedIssues: state.selectedIssues.slice(0, -1),
-          currentIssue: payload,
+          currentIssue: payload.currentId,
           loading: false,
         };
       } else {
-        if (state.selectedIssues.includes(payload)) {
+        if (state.selectedIssues.includes(payload.issue.id)) {
           return {
             ...state,
-            currentIssue: payload,
+            currentIssue: payload.currentId,
             loading: false,
           };
         } else {
           return {
             ...state,
-            selectedIssues: [...state.selectedIssues, payload],
-            currentIssue: payload,
+            selectedIssues: [...state.selectedIssues, payload.issue],
+            currentIssue: payload.currentId,
             loading: false,
           };
         }

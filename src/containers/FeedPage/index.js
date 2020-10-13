@@ -1,13 +1,27 @@
-import React from 'react'
+import React from "react";
+import { Container, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-const index = () => {
-    return (
+const FeedPage = () => {
+  const selectedIssues = useSelector((state) => state.issue.selectedIssues);
+  const recentFive = selectedIssues.slice(-5);
+  return (
+    <>
+      <Container className="text-center">
+        <h1>News Feed</h1>
+
         <div>
-            this is Feed
-  
+          <ul>
+            {recentFive.length ? (
+              recentFive.map((issue) => <li>{issue.title}</li>)
+            ) : (
+              <p>There is no record</p>
+            )}
+          </ul>
         </div>
-    )
-}
+      </Container>
+    </>
+  );
+};
 
-export default index
-
+export default FeedPage;

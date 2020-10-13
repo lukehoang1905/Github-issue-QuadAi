@@ -14,10 +14,10 @@ const issuesRequest = (currentPage) => async (dispatch) => {
   }
 };
 
-const selectIssue = (id) => (dispatch) => {
+const selectIssue = (issue) => (dispatch) => {
   dispatch({ type: types.ISSUE_SELECT, payload: null });
   try {
-    dispatch({ type: types.ISSUE_SELECT_SUCCESS, payload: id });
+    dispatch({ type: types.ISSUE_SELECT_SUCCESS, payload: issue });
   } catch (error) {
     dispatch({ type: types.ISSUE_SELECT_FAILURE, payload: error });
   }
