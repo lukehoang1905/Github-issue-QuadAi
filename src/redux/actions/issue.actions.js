@@ -14,16 +14,21 @@ const issuesRequest = (currentPage) => async (dispatch) => {
   }
 };
 
-const selectIssue = (issue) => (dispatch) => {
-  dispatch({ type: types.ISSUE_SELECT, payload: null });
-  try {
-    dispatch({ type: types.ISSUE_SELECT_SUCCESS, payload: issue });
-  } catch (error) {
-    dispatch({ type: types.ISSUE_SELECT_FAILURE, payload: error });
-  }
+const selectIssue = (id) => (dispatch) => {
+  dispatch({ type: types.SELECT_ISSUE, payload: id });
+};
+
+const recordHistory = (issue) => (dispatch) => {
+  dispatch({ type: types.RECORD_HISTORY, payload: issue });
+};
+
+const resetNotification = (bool) => (dispatch) => {
+  dispatch({ type: types.RESET_NOTIFICATION, payload: bool });
 };
 
 export const issueActions = {
   issuesRequest,
   selectIssue,
+  recordHistory,
+  resetNotification,
 };

@@ -1,15 +1,15 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
-
-import Routes from "./containers/Routes";
+import HomePage from "./containers/HomePage.js";
+import PublicNavbar from "./components/Navbar/PublicNavbar";
 
 function App() {
   return (
-    <Router>
-      <Routes />
-    </Router>
+    <>
+      <PublicNavbar />
+      <HomePage />
+    </>
   );
 }
 

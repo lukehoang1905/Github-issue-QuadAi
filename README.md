@@ -10,23 +10,17 @@ A new feed page to show up-to 5 most recent selection.
 - Fetch and display github issue from <https://api.github.com/repos/rails/rails/issues?page=1&per_page=5>
 - Fetch with fetch()
 - Load 5 page, then next button to next 5
-- On click highlights issue, 1 highlight at a time, double click = > toogle-unselect
-- Wall feed notification of recent five
-- Reasonable UI
-
-### Limitation (out of scope)
-
-- Better Pagination with total page numbe and jumpto-page
-- Dublicate SelectedIssues history
+- On click highlights issue, 1 highlight at a time, double click = > toogle-highlight
+- Notification counter and show recent five selection
 
 ### Dependencies
 
-- react-bootrap : main styling structure
+- fontawesome : for logo and icons
+- bootrap : for styling
 - moment : to caculate and render "x hours ago from created_at"
-- font-awesome: logos
-- axios: planned to use for api url creation (alternated by fetch)
 - react-spinners: for loading circle spinner
-- redux : a library for global state management
+- redux : library for global state management
+- redux-thunk: as middleware to call function in redux action
 
 ### Getting started
 
@@ -38,6 +32,8 @@ There is no env keys.
 ### Project structure
 
 ```
+|- public\
+    |- _redirects
 |- src\
     |- components\
         |- Navbar
@@ -45,33 +41,62 @@ There is no env keys.
         |- SingleIssue.js
         |- SingleIssue.css
     |- containers\
-        |- FeedPage\
-            |- index.js
-        |- HomePage\
-            |- index.js\
-        |- Routes\
-            |- index.js
+        |- HomePage.js
     |- redux\
         |- actions\
-            |- index.js
             |- issue.action.js
         |- constants\
-            |- index.js
             |- issue.constant.js
         |- reducers\
-            |- index.js
             |- issue.reducer.js
         |- store.js
-    |- utils\
+    |- App.css
+    |- App.js
+    |- index.js
+
 ```
 
+- `public/redirects`: configuration to fix netlify url 404 error
 - `src/components/`: folder for simple stateless components : Navbar and Single Issue
-- `src/containers/`: folder for stateful components : Homepage and NewFeed Page
-- `src/redux/actions`: each file in this folder is related to a set of actions, e.g. `issue.actions.js`
-- `src/redux/reducers`: set of reducers that are combined in `index.js`
-- `src/redux/constants`: set of types of actions
+- `src/containers/`: folder for stateful components : Homepage
+- `src/redux/issue.actions`: set of all actions (issue and notification)
+- `src/redux/issue.reducers`: set of all reducers and states (issue and notification)
+- `src/redux/issue.constants`: set of all constants (issue and notification)
 - `src/redux/store.js`: configuration of the store
-- _Note_: while there is no need to use Combined actions/reducer/contants it is my decision to include it in case of futher requirements of the project. E.g Authentication ..
+- _Note_: because Notification Counter only have 1 small action, so I combined it within Issue.actions/constants/reducers
+
+### Solution Flow
+
+This is as walkthrough of the logic flow to my solution of the app.
+
+##### Fetch and display list of issue with basic pagination
+
+- Fetch 5 issues and store in redux state, render all 5
+- Create state for current page in homepage, pagination will setCurrentPage
+- Put fetch in useEffect with dependency is Current Page Number to fecth new page from API when current page changes
+
+##### Highlight one selection at a time and toogle highlight as double click
+
+- Redux state for currentHighlight to store latest selection.
+  - State changes base on payload value of Select_Action which is {null or issueId}
+  - Dispatch this action everytime select an issue with payload = issue.id
+  - If the issue.id match state.id , dispatch this action with payload = null
+  - If the issue.id match current state of currentHighlight, className [highlighted]. Style the highligh ui for the class.
+
+##### Selection History and Notification Counter
+
+- Redux state for selection history to store selection (max 5).
+
+  - State changes base on payload value of Record_History
+  - Dispatch this action everytime select an issue that have issue_id does not match current_highlight
+  - Take 4 elements from index 0 of selection history, then add newest payload to the first possition.
+
+- Dropdown menu style for notification with title is number of new notification, reset at seen.
+  - Render all selection history
+  - Redux state for number of unseen notification start at 0
+  - Increase notification to + 1 whenever record history action success
+  - Dispatch action reset notification counter to 0 when click to see dropdown list
+  - Max 5 selection displayed, so only max 5 new notification show on counter. Reason is to make sure UI/UX concise with data display. (max 5 selection -> max 5 counter)
 
 ### Technical decision
 
@@ -84,20 +109,22 @@ There is no env keys.
 
 2. How did you share state between components? What are the pros and cons? Why did you chose this approach?
 
-   I used both props and redux to manage my state.
-   With state like **currentpage** and **setcurrentpage** I will sent as props to every single issue items  
-   For state like **selection** I would useSelector from redux to pick out the current state of the selection rather than have to send as props to newsfeed page and also avoid sending to PublicNavbar  
-   I am also using redux to store article retrieved from api call that I have not using much. However, as if the app need to be improve on performance, I would be able to store data to state everytime user load newpage. Then rerender from redux store when Pagination happens (especially, go to previous page) to prevent waste api call to the sever for previous loaded issues
+   I used both component state and pass from HomePage to SingleIssue by props as well as Redux to manage my state.
 
 3. Did you use React hooks? Why or why not?
+
    Yes, I used React hooks.
-   Because Im coding this app in functional component style⋅⋅
+   Because Im coding this app in functional component style which help make the code shorter
 
 4. How did you prevent wasted renders?
+
    asad
    asad
 
 5. How did you handle side-effects (e.g. data fetching)? What are the pros and cons? Why did you chose this approach?
+
+sadsadd
+asdsad
 
 ### Production Link
 

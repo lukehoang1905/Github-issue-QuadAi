@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { ClipLoader } from "react-spinners";
-import SingleIssue from "../../components/SingleIssue";
-import { issueActions } from "../../redux/actions/issue.actions";
+import { PulseLoader } from "react-spinners";
+import SingleIssue from "../components/SingleIssue";
+import { issueActions } from "../redux/actions/issue.actions";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.issue.loading);
-  const issues = useSelector((state) => state.issue.issues);
+  const loading = useSelector((state) => state.loading);
+  const issues = useSelector((state) => state.issues);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -17,6 +17,7 @@ const HomePage = () => {
   }, [dispatch, currentPage]);
 
   const handleNextPage = () => {
+    if (currentPage > 70) return;
     setCurrentPage(currentPage + 1);
   };
   const handlePreviousPage = () => {
@@ -27,13 +28,12 @@ const HomePage = () => {
   return (
     <>
       <Container>
-        {" "}
         <h1>Issue List</h1>
         {loading ? (
-          <ClipLoader color="#f86c6b" size={150} loading={loading} />
+          <PulseLoader loading={loading} color="orange" />
         ) : (
           <>
-            {issues.length ? (
+            {issues && issues.length ? (
               <div className="issue-list">
                 <Table bordered hover>
                   <tbody>
@@ -62,7 +62,7 @@ const HomePage = () => {
                 </div>
               </div>
             ) : (
-              <p>There is no issue</p>
+              <p>Loading...</p>
             )}
           </>
         )}

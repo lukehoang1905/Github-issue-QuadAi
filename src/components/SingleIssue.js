@@ -3,24 +3,27 @@ import { Badge, Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { issueActions } from "../redux/actions/issue.actions";
+
 import "./SingleIssue.css";
 
 const SingleIssue = ({ issue }) => {
-  const currentIssue = useSelector((state) => state.issue.currentIssue);
   const dispatch = useDispatch();
-  let currentId = issue.id;
-  const handleSelectIssue = (issue) => {
-    if (currentIssue === issue.id) {
-      currentId = "delete";
+  const currentHighlight = useSelector((state) => state.currentHighlight);
+
+  const handleSelectIssue = (id, title) => {
+    if (currentHighlight === id) {
+      dispatch(issueActions.selectIssue(null));
+    } else {
+      dispatch(issueActions.selectIssue(id));
+      dispatch(issueActions.recordHistory({ id, title }));
     }
-    dispatch(issueActions.selectIssue({ issue, currentId }));
   };
 
   return (
     <tr>
       <td
-        className={issue.id === currentIssue ? "highlighted" : ""}
-        onClick={() => handleSelectIssue(issue)}
+        className={issue.id === currentHighlight ? "highlighted" : ""}
+        onClick={() => handleSelectIssue(issue.id, issue.title)}
       >
         <Row>
           <Col md={1} className="issue-icon-area">

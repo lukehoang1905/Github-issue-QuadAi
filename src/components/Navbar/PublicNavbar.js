@@ -1,15 +1,21 @@
 import React from "react";
-import { Nav, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Col, Dropdown, DropdownButton, Navbar, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { issueActions } from "../../redux/actions/issue.actions";
+
 const PublicNavbar = () => {
-  const selectedIssues = useSelector((state) => state.issue.selectedIssues);
+  const selectionHistory = useSelector((state) => state.selectionHistory);
+  const notificationIsSeen = useSelector((state) => state.notificationIsSeen);
+
+  const dispatch = useDispatch();
+  const handleViewNotification = () => {
+    dispatch(issueActions.resetNotification(0));
+  };
+
   return (
     <div>
       <Navbar bg="dark" sticky="top" variant="dark" style={{ width: "100%" }}>
         <Navbar.Brand
-          as={Link}
-          to="/"
           id="logo"
           className="mr-auto"
           style={{ paddingRight: "30px" }}
@@ -17,15 +23,29 @@ const PublicNavbar = () => {
           {" "}
           GitHub Issue
         </Navbar.Brand>
-        <Nav.Link as={Link} to="/feed">
-          <i className="fas fa-sign-in-alt" /> News Feed
-          <span className="fa-stack fa-2x">
-            <i className="fa fa-circle fa-stack-1x"></i>
-            <i className="fa-stack-1x " style={{ color: "red" }}>
-              {selectedIssues.length}
-            </i>
-          </span>
-        </Nav.Link>
+        <DropdownButton
+          onClick={() => handleViewNotification()}
+          alignRight
+          variant="info"
+          title={notificationIsSeen > 5 ? `5+` : notificationIsSeen}
+          id="dropdown-menu-align-right"
+        >
+          {selectionHistory.length ? (
+            selectionHistory.map((selection, idx) => (
+              <Dropdown.Item eventKey={idx}>
+                <Row className="d-flex justify-content-between">
+                  <Col sx={12}>
+                    {selection.title.slice(0, selection.title.indexOf(" "))}
+                  </Col>
+                  <Col sx={12}>Id: {selection.id}</Col>
+                </Row>
+                <Dropdown.Divider />
+              </Dropdown.Item>
+            ))
+          ) : (
+            <p style={{ textAlign: "center" }}>No issue selected</p>
+          )}
+        </DropdownButton>
       </Navbar>
     </div>
   );
