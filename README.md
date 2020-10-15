@@ -102,10 +102,15 @@ This is as walkthrough of the logic flow to my solution of the app.
 
 1. How did you implement styling? What are the pros and cons? Why did you chose this approach?
 
-   I use bootstrap to do most of the styling structure since the app is relative small so that would be the most efficent though it is quite unflexible and less of artistic side.
+   I use bootstrap to do most of the styling structure since the app is relative small so that would be the most efficent though it is quite unflexible.
 
-   Moreover, with conditional styling, I use variable from redux store to able to maintain selection  
-   Another reason is that this is the approach I feel comfortable of using at the moment
+   - pros : simple, easy to use, responssive
+   - cons : Unflexible sometime, external libary risk,
+
+   I also use inline CSS styling where there is logic , conditional that applied. Because it is more efficient and easier to manage the code where logic, variables and styling result are in 1 js file.
+
+   - pros: utilize of ES6 template literal notation, easy to manage logics and variables that in 1 file .js
+   - cons: unreusable
 
 2. How did you share state between components? What are the pros and cons? Why did you chose this approach?
 
@@ -118,13 +123,20 @@ This is as walkthrough of the logic flow to my solution of the app.
 
 4. How did you prevent wasted renders?
 
-   asad
-   asad
+   I use react hook useEffect(similar to ComponentDidMount) and dependencies(ComponentDidUpdate) to make sure app only render when there are change in these dependencies.
 
 5. How did you handle side-effects (e.g. data fetching)? What are the pros and cons? Why did you chose this approach?
 
-sadsadd
-asdsad
+   I use Redux middle thunk to call the asunchronous fetching function whenever the action data request is dispatch.
+   Also, I store data responsed to redux store.
+
+   Pros:
+
+   - Solving asynchronous dispatches of Redux.
+   - Allow write action that return function (fetching) instead of passing only data object
+   - Easy to access data, trim down the passing props to component process.
+     Cons:
+   - Not really a cons, but all this could be alternate by fetching data inside useEffect as component state without redux. Then pass to child as props
 
 ### Production Link
 
